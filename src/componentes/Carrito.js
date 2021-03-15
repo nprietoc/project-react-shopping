@@ -19,7 +19,7 @@ const ComponenteCarrito = (props) => {
                 <tfoot>
                     <tr>
                         <th scope="row" colSpan="5">Carrito vacío - comience a comprar!</th>
-                        <th>{onChange !== [] ? onChange.map((list, index) =>
+                        <th>{onChange ? onChange.map((list, index) =>
                         <ComponenteCarrito 
                         key={index}
                         id={list.id}

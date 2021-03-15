@@ -10,7 +10,7 @@ const ComponenteCard = (props) => {
                 <img className="card-img-top" src={image}></img>            
               <h5>{name}</h5>
               <p>{value}</p>
-              <button className="btn btn-dark">Comprar{onClick}</button>
+              <button className="btn btn-dark" onClick={onClick}>Comprar</button>
             </div>
           </div>
         </div>

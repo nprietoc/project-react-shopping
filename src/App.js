@@ -1,4 +1,5 @@
 import React,{useState, useEffect} from 'react';
+import update from 'react-addons-update';
 import './../src/assets/css/App.css';
 
 import ComponenteTitulo from './componentes/Titulo'
@@ -24,16 +25,15 @@ function App() {
 
   const [compra, SetCompra] = useState([])
 
-  const Almacenaminto = () => {
+  const Almacenamiento = () => {
     const objeto = {
       id: "",
-      item: "",
+      item: "natalia",
       cantidad: 0,
-      accioón: "",
+      accion: "",
       total: 0 
     }
-
-    useState.push({objeto});
+    SetCompra()
 
   }
 
@@ -49,6 +49,7 @@ function App() {
         image={list.thumbnailUrl}
         name={list.title}
         value={list.precio}
+        onClick={() => Almacenamiento()}
         />
         )  : ""}
         
