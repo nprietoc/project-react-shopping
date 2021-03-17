@@ -1,5 +1,4 @@
 import React,{useState, useEffect} from 'react';
-import update from 'react-addons-update';
 import './../src/assets/css/App.css';
 
 import ComponenteTitulo from './componentes/Titulo'
@@ -23,25 +22,63 @@ function App() {
     fetchData()
   },[])
 
-  const [compra, SetCompra] = useState([])
+  const [compra, SetCompra] = useState({lista: []})
 
-  const Almacenamiento = () => {
-    const objeto = {
-      id: "",
-      item: "natalia",
-      cantidad: 0,
+  const Almacenamiento = (item) => {
+    const newArray = compra.lista
+    
+    const newObjeto = {
+      id: item.id,
+      item: item.title,
+      cantidad: 1,
       accion: "",
-      total: 0 
+      total: item.precio 
     }
-    SetCompra()
+    let validacion = false;
+    
+    newArray.map(function (mapObjeto, index) {
+      if (mapObjeto.id === item.id) {
+        mapObjeto.cantidad = mapObjeto.cantidad + 1;
+        mapObjeto.total = mapObjeto.total + newObjeto.total
+        validacion = true;
+      } 
+      
+    })
+
+    if (!validacion) {
+      newArray.push(newObjeto)
+    }
+    
+    SetCompra({lista: newArray})
 
   }
+  
+  const eliminar = () => {
+    SetCompra({lista: []})    
+    
+  }
+
+  const agregar = () => {
+    const newCantidad = compra.lista
+    newCantidad.map(function (map, index) {
+      if(map != 0) {
+        map.cantidad = newCantidad.cantidad + 1
+      }
+    })
+    SetCompra({lista: newCantidad})
+
+  
+  }
+
 
   return (
     <div>
       <div className="container">
         <ComponenteTitulo /> 
-        <ComponenteCarrito onchange={compra}/>
+        <hr></hr>
+        <ComponenteCarrito listaCompra={compra.lista} clickVaciar={() => eliminar()} clickSuma={() => agregar()}/>
+        
+        
         <div className="row"> 
         {data !== [] ? data.map((list, index) => 
         <ComponenteCard 
@@ -49,7 +86,7 @@ function App() {
         image={list.thumbnailUrl}
         name={list.title}
         value={list.precio}
-        onClick={() => Almacenamiento()}
+        onClick={() => Almacenamiento(list)}
         />
         )  : ""}
         
