@@ -5,9 +5,11 @@ import ComponenteTitulo from './componentes/Titulo'
 import ComponenteCard from './componentes/CardsList'
 import ComponenteCarrito from './componentes/Carrito'
 
-
 function App() {
   const [data, setData] = useState([])
+  const [compra, setCompra] = useState({lista: []})
+  const [total, setTotal] = useState({cantidad: 0, precio: 0})
+  
   useEffect(()=>{
     const fetchData = async () => {
       try {
@@ -22,11 +24,12 @@ function App() {
     fetchData()
   },[])
 
-  const [compra, SetCompra] = useState({lista: []})
-
+  
   const Almacenamiento = (item) => {
     const newArray = compra.lista
+    let sumCantidad = 0, sumTotal = 0
     
+
     const newObjeto = {
       id: item.id,
       item: item.title,
@@ -39,44 +42,38 @@ function App() {
     newArray.map(function (mapObjeto, index) {
       if (mapObjeto.id === item.id) {
         mapObjeto.cantidad = mapObjeto.cantidad + 1;
-        mapObjeto.total = mapObjeto.total + newObjeto.total
+        mapObjeto.total = mapObjeto.total + newObjeto.total;
         validacion = true;
       } 
+      sumCantidad = mapObjeto.cantidad + sumCantidad
+      sumTotal = mapObjeto.total + sumTotal
       
     })
 
     if (!validacion) {
       newArray.push(newObjeto)
+      sumCantidad++;
+      sumTotal = newObjeto.total + sumTotal    
     }
     
-    SetCompra({lista: newArray})
-
+    setCompra({lista: newArray})
+    setTotal({cantidad: sumCantidad, precio: sumTotal})
+    
+    
   }
   
   const eliminar = () => {
-    SetCompra({lista: []})    
+    setCompra({lista: []})    
     
   }
-
-  const agregar = () => {
-    const newCantidad = compra.lista
-    newCantidad.map(function (map, index) {
-      if(map != 0) {
-        map.cantidad = newCantidad.cantidad + 1
-      }
-    })
-    SetCompra({lista: newCantidad})
-
-  
-  }
-
+    
 
   return (
     <div>
       <div className="container">
         <ComponenteTitulo /> 
         <hr></hr>
-        <ComponenteCarrito listaCompra={compra.lista} clickVaciar={() => eliminar()} clickSuma={() => agregar()}/>
+        <ComponenteCarrito listaCompra={compra.lista} clickVaciar={() => eliminar()} footerC={total.cantidad} footerT={total.precio} clickSuma={compra.lista} clickResta={compra.lista} />
         
         
         <div className="row"> 

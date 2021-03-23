@@ -1,8 +1,8 @@
 import React from "react";
-import ComponenteFooter from "./footer";
+import ComponenteFooter from "./Footer";
 
 const ComponenteCarrito = (props) => {
-  const { listaCompra, clickVaciar, clickSuma, ClickResta } = props;
+  const { listaCompra, clickVaciar, clickSuma, ClickResta, footerC, footerT } = props;
 
   return (
     <div>
@@ -36,7 +36,7 @@ const ComponenteCarrito = (props) => {
         </tbody>
         <tfoot>
           {listaCompra.length !== 0 ? (
-            <ComponenteFooter clickVaciar={clickVaciar}/>
+            <ComponenteFooter clickVaciar={clickVaciar} footerC={footerC} footerT={footerT}/>
           ) : (
             <tr>
               <th scope="row" colSpan="5">
